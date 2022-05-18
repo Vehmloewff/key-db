@@ -30,7 +30,10 @@ export async function set(path: string, value: string) {
 	const { key, project } = getFSPath(path, { requireKey: true })
 
 	const collection = database.collection(project)
-	await collection.insertOne({ data: value, key })
+	const document = await collection.findOne({ key })
+
+	if (document) await collection.replaceOne({ key }, { data: value, key })
+	else await collection.insertOne({ data: value, key })
 }
 
 export async function get(path: string) {
