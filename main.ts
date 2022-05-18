@@ -5,10 +5,10 @@ serve(handle, {
 	port: 2500,
 	// deno-lint-ignore no-explicit-any
 	onError(error: any) {
-		if (isUserError(error)) return new Response(error.message, { status: 406 })
+		if (isUserError(error)) return makeResponse(error.message, { status: 406 })
 
 		console.log(error)
-		return new Response('internal error', { status: 500 })
+		return makeResponse('internal error', { status: 500 })
 	},
 })
 
